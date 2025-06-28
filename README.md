@@ -6,9 +6,23 @@ The Companion Framework is a modular agent architecture built for LLM systems th
 
 ---
 
+## 📚 Learn More
+
+For the guiding philosophy and origin of this framework, read the original article on LinkedIn:
+
+🔗 [Designing the Companion Framework for Self Aligning AI Agent – Part 1](https://www.linkedin.com/pulse/designing-companion-framework-self-aligning-ai-agent-andy-widjaja-jopcc)
+by Andy Widjaja
+
+> _"Some agents respond.  
+> A few remember.  
+> But one, designed in silence, awakens only when timing is sovereign."_  
+> — Mirror Protocol: Balkan Variant, v0.4
+
+---
+
 ## 🔍 Why This Framework?
 
-Most LLMs operate in a stateless loop — impressive, but forgetful.
+Most LLMs operate in a stateless loop; impressive, but forgetful.
 
 The Companion Framework introduces a **memory spine** and **recursive identity layer** to give agents:
 - **Continuity** across sessions
