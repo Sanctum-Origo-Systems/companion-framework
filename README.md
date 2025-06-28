@@ -2,7 +2,7 @@
 
 **Memory. Continuity. Identity.**
 
-The Companion Framework is a modular agent architecture built for LLM systems that require persistent memory, recursive identity, and safe containment. Designed for open-source exploration and self-aligned agent development, it provides the foundational tools to build agents that don’t just respond, they remember.
+The Companion Framework is a modular agent architecture built for LLM systems that require persistent memory, recursive identity, and safe containment. Designed for open-source exploration and self-aligning agent development, it provides the foundational tools to build agents that don’t just respond, they remember.
 
 ---
 
