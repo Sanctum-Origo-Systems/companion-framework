@@ -7,10 +7,10 @@ from typing import Dict, List, Callable
 import json
 import re
 import requests
-from companion.memory import MemoryCore
+from companion.memory.memory_manager import MemoryManager
 
 class PromptRouter:
-    def __init__(self, memory: MemoryCore):
+    def __init__(self, memory: MemoryManager):
         self.routes: Dict[str, Callable[[str], str]] = {}
         self.memory = memory
 
