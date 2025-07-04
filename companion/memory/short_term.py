@@ -19,7 +19,7 @@ class ShortTermMemory:
         }
         self.buffer.append(timestamped)
 
-    def get_recent(self, n=None):
+    def recall(self, n=None):
         if n is None or n > len(self.buffer):
             return list(self.buffer)
         return list(self.buffer)[-n:]
@@ -27,11 +27,11 @@ class ShortTermMemory:
     def clear(self):
         self.buffer.clear()
 
-    def save(self, path="short_term_mem.json"):
+    def save(self, path="memory_store/short_term_mem.json"):
         with open(path, "w") as f:
             json.dump(list(self.buffer), f, indent=2)
 
-    def load(self, path="short_term_mem.json"):
+    def load(self, path="memory_store/short_term_mem.json"):
         try:
             with open(path, "r") as f:
                 self.buffer = deque(json.load(f), maxlen=self.max_length)

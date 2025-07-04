@@ -10,7 +10,7 @@ import pickle
 from sentence_transformers import SentenceTransformer
 
 class LongTermMemory:
-    def __init__(self, path="faiss.index", dim=384):
+    def __init__(self, path="memory_store/faiss.index", dim=384):
         self.path = path
         self.dim = dim
         self.model = SentenceTransformer("all-MiniLM-L6-v2")
