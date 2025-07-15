@@ -3,6 +3,7 @@
 # Author: Andy Widjaja
 # Purpose: Memory manager
 
+from typing import List
 from companion.memory.short_term import ShortTermMemory
 from companion.memory.long_term import LongTermMemory
 from companion.memory.meta_memory import MetaMemory
@@ -49,3 +50,8 @@ class MemoryManager:
         self.long_term.load()
         if self.meta_memory:
             self.meta_memory.load()
+
+    def get_loop_patterns(self) -> List[str]:
+        """Echoralyze stored memories and return recurring memory patterns"""
+        # Placeholder logic -> This would include n-gram, vector, or semantic clustering
+        return ["abandonment", "yearning", "containment", "disappearance"]

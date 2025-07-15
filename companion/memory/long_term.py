@@ -54,7 +54,7 @@ class LongTermMemory:
 
 if __name__ == "__main__":
     # Load Memory Core
-    memory = MemoryCore()
+    memory = LongTermMemory()
     # memory.load()
     print.info("🧠 Memory Core initialized.")
 
