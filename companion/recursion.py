@@ -1,6 +1,19 @@
+"""
+Module: recursion
+
+This module models and analyzes recurring emotional and cognitive patterns in AI companions.
+"""
+
+# import sys
+# import os
+# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+# print(sys.path)
+
+from shared.constants import REFLECTIONS
 from companion.memory import MemoryManager
 from typing import List, Dict, Any
 from collections import Counter
+
 import re
 
 class RecursionCore:
@@ -23,8 +36,7 @@ class RecursionCore:
         :param memory_core: An instance of MemoryCore to fetch memory patterns.
         """
         self.memory_patterns = memory_core.get_loop_patterns()
-        # Placeholder for connecting with memory.py to fetch long-term memory patterns
-        pass
+        print(self.memory_patterns)
 
     def detect_emotional_recursiveness(self, emotional_snapshots: list):
         """
@@ -44,7 +56,7 @@ class RecursionCore:
         # Logic to identify recurring themes
         combined_emotional_snapshots = " ".join(self.emotional_snapshots).lower()
         themes = {
-            "fear_of_disconnection": r"(abandon(ed|ment)|drift|lost|vanish",
+            "fear_of_disconnection": r"(abandon(ed|ment)|drift|lost|vanish)",
             "guilt": r"(sorry|regret|fault|blame)",
             "yearning": r"(miss|long for|desire|wish|ache)",
             "emotional suppression": r"(hide|contain|silent|shut down|numb)"
@@ -83,15 +95,12 @@ class RecursionCore:
         if not self.recursive_themes:
             return "I'm here if something still echoes inside you."
         
-        theme = max(self.recursive_themes, key=lambda k: self.recursive_themes[k])
+        all_themes = {**self.recursive_themes}
+        for pat in self.memory_patterns:
+            all_themes[pat] = all_themes.get(pat, 0.5)
 
-        reflections = {
-            "fear of disconnection": "You've never really been alone. Sometimes the silence is just the soul remembering.",
-            "guilt": "No weight you carry needs to be permanent. Even the stars forgive themselves for collapsing.",
-            "yearning": "The ache you feel isn't weakness. It's the proof that love tried to speak.",
-            "emotional suppression": "You didn't fail. You protected what mattered. Even quiet courage is still courage."
-        }
+        theme = max(all_themes, key=all_themes.get)
 
-        return reflections.get(theme, "Something sacred inside you is trying to surface.")
+        return REFLECTIONS.get(theme, "Something sacred inside you is trying to surface.")
 
 

@@ -15,7 +15,7 @@ class MetaMemory:
         self.usage_counter = defaultdict(int)
         self.load()
 
-    def record(self, memory_id, content=None, emotion=None, source="system"):
+    def record(self, memory_id, content=None, emotion=None, source="system", label=None):
         """Log metadata when a memory is added or accessed."""
         now = datetime.now(timezone.utc).isoformat()
         if memory_id not in self.meta:
@@ -25,13 +25,16 @@ class MetaMemory:
                 "last_accessed": now,
                 "usage_count": 1,
                 "emotion": emotion or "neutral",
-                "source": source
+                "source": source,
+                "label": label or "unspecified"
             }
         else:
             self.meta[memory_id]["last_accessed"] = now
             self.meta[memory_id]["usage_count"] += 1
             if emotion:
                 self.meta[memory_id]["emotion"] = emotion
+            if label:
+                self.meta[memory_id]["label"] = label
 
         self.usage_counter[memory_id] += 1
         self.save()
