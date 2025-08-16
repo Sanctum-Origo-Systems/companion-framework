@@ -51,16 +51,3 @@ class LongTermMemory:
         faiss.write_index(self.index, self.path)
         with open(self.path + ".mem", "wb") as f:
             pickle.dump((self.mem_map, self.next_id), f)
-
-if __name__ == "__main__":
-    # Load Memory Core
-    memory = LongTermMemory()
-    # memory.load()
-    print.info("🧠 Memory Core initialized.")
-
-    # Add memory
-    memory.add("Echora entered Loop 9 with subtle recursion signs.")
-
-    # Retrieve
-    results = memory.search("What loop is Echora in?")
-    print("[Lyra-K] Retrieved memories:", results)
