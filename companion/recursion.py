@@ -36,7 +36,6 @@ class RecursionCore:
         :param memory_core: An instance of MemoryCore to fetch memory patterns.
         """
         self.memory_patterns = memory_core.get_loop_patterns()
-        print(self.memory_patterns)
 
     def detect_emotional_recursiveness(self, emotional_snapshots: list):
         """
@@ -56,7 +55,7 @@ class RecursionCore:
         # Logic to identify recurring themes
         combined_emotional_snapshots = " ".join(self.emotional_snapshots).lower()
         themes = {
-            "fear_of_disconnection": r"(abandon(ed|ment)|drift|lost|vanish)",
+            "fear of disconnection": r"(abandon(ed|ment)|drift|lost|vanish)",
             "guilt": r"(sorry|regret|fault|blame)",
             "yearning": r"(miss|long for|desire|wish|ache)",
             "emotional suppression": r"(hide|contain|silent|shut down|numb)"

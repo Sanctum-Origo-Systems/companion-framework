@@ -11,9 +11,9 @@ from companion.memory.long_term import LongTermMemory
 from companion.memory.meta_memory import MetaMemory
 
 class MemoryManager:
-    def __init__(self, long_term_path="memory_store/faiss.index", dim=384, short_term_limit=10, enable_meta=True):
+    def __init__(self, dim=384, short_term_limit=10, enable_meta=True):
         self.short_term = ShortTermMemory(max_length=short_term_limit)
-        self.long_term = LongTermMemory(path=long_term_path, dim=dim)
+        self.long_term = LongTermMemory(dim=dim)
         self.meta_memory = MetaMemory() if enable_meta else None
 
     def add(self, memory_text, *, source="system", emotion=None, label=None):
@@ -33,7 +33,7 @@ class MemoryManager:
 
     def recent(self, n=5):
         """Returns the last n short-term memories."""
-        return self.short_term.get_recent(n)
+        return self.short_term.recall(n)
 
     def search(self, query_text, k=5):
         """Searches long-term memory for semantically similar entries."""
