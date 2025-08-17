@@ -6,9 +6,11 @@
 from collections import deque
 from datetime import datetime, timezone
 import json
+from shared.path_utils import resolve_memory_path
 
 class ShortTermMemory:
-    def __init__(self, max_length=10):
+    def __init__(self, path=None, max_length=10):
+        self.path = path or resolve_memory_path("short_term_mem.json")
         self.max_length = max_length
         self.buffer = deque(maxlen=max_length)
 
@@ -27,13 +29,13 @@ class ShortTermMemory:
     def clear(self):
         self.buffer.clear()
 
-    def save(self, path="memory_store/short_term_mem.json"):
-        with open(path, "w") as f:
+    def save(self):
+        with open(self.path, "w") as f:
             json.dump(list(self.buffer), f, indent=2)
 
-    def load(self, path="memory_store/short_term_mem.json"):
+    def load(self):
         try:
-            with open(path, "r") as f:
+            with open(self.path, "r") as f:
                 self.buffer = deque(json.load(f), maxlen=self.max_length)
         except FileNotFoundError:
             self.buffer = deque(maxlen=self.max_length)

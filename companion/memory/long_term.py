@@ -8,17 +8,18 @@ import faiss
 import numpy as np
 import pickle
 from sentence_transformers import SentenceTransformer
+from shared.path_utils import resolve_memory_path
 
 class LongTermMemory:
-    def __init__(self, path="memory_store/faiss.index", dim=384):
-        self.path = path
+    def __init__(self, path=None, dim=384):
+        self.path = path or resolve_memory_path("faiss.index")
         self.dim = dim
         self.model = SentenceTransformer("all-MiniLM-L6-v2")
         self.index = faiss.IndexFlatL2(dim)
         self.mem_map = {}  # maps index IDs to memory strings
         self.next_id = 0
 
-        if os.path.exists(path):
+        if os.path.exists(self.path):
             self.load()
             print("✅ MemoryCore hydrated from disk.")
         else:

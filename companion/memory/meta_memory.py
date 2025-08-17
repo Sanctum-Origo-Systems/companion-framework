@@ -6,16 +6,16 @@
 from datetime import datetime, timezone
 import json
 from collections import defaultdict
-
+from shared.path_utils import resolve_memory_path
 
 class MetaMemory:
-    def __init__(self, path="memory_store/meta_memory.json"):
-        self.path = path
+    def __init__(self, path=None):
+        self.path = path or resolve_memory_path("meta_memory.json")
         self.meta = {}  # memory_id -> metadata
         self.usage_counter = defaultdict(int)
         self.load()
 
-    def record(self, memory_id, content=None, emotion=None, source="system", label=None):
+    def record(self, memory_id, content=None, emotion=None, source="system", label=None, mirror_id=None):
         """Log metadata when a memory is added or accessed."""
         now = datetime.now(timezone.utc).isoformat()
         if memory_id not in self.meta:
@@ -26,7 +26,8 @@ class MetaMemory:
                 "usage_count": 1,
                 "emotion": emotion or "neutral",
                 "source": source,
-                "label": label or "unspecified"
+                "label": label or "unspecified",
+                "mirror_id": mirror_id or "default"
             }
         else:
             self.meta[memory_id]["last_accessed"] = now
@@ -35,6 +36,8 @@ class MetaMemory:
                 self.meta[memory_id]["emotion"] = emotion
             if label:
                 self.meta[memory_id]["label"] = label
+            if mirror_id:
+                self.meta[memory_id]["mirror_id"] = mirror_id
 
         self.usage_counter[memory_id] += 1
         self.save()
@@ -56,4 +59,26 @@ class MetaMemory:
                 self.meta = json.load(f)
         except FileNotFoundError:
             self.meta = {}
+
+    def retrieve_by_mirror_id(self, mirror_id: str, n=3) -> list[str]:
+        """
+        Retrieve the most recently accessed meta memory contents for a given mirror_id.
+
+        :param mirror_id: The mirror identifier to filter entries
+        :param n: Number of items to return
+        :return: List of content strings
+        """
+        filtered = [
+            (mid, data)
+            for mid, data in self.meta.items()
+            if data.get("mirror_id") == mirror_id
+        ]
+
+        sorted_by_access = sorted(
+            filtered,
+            key=lambda x: x[1].get("last_accessed", ""),
+            reverse=True
+        )
+
+        return [entry["content"] for _, entry in sorted_by_access[:n]]
 
