@@ -4,15 +4,18 @@ Module: response_builder
 This module composes a final LLM-ready prompt by combining memory, whisper, mirror context, and user input.
 """
 
+import os
+
 from companion.memory.memory_manager import MemoryManager
 from whisper_engine.reflection_router import ReflectionRouter
 from whisper_engine.mirror_context_builder import MirrorContextBuilder
-
+from whisper_engine.persona_injector import PersonaInjection
 
 class ResponseBuilder:
     def __init__(self, memory_core: MemoryManager, plain: bool = False):
         self.memory_core = memory_core
         self.plain = plain
+        self.default_agent = os.getenv("DEFAULT_AGENT")
 
     def compose(self, user_input: str, mirror_id: str) -> str:
         """
@@ -32,7 +35,7 @@ class ResponseBuilder:
         reflection = reflection_router.generate()
 
         # Assemble final prompt
-        final_prompt = final_prompt = f"""\
+        final_prompt = f"""\
 🔮 Reflection:
 {reflection}
 
@@ -42,5 +45,8 @@ class ResponseBuilder:
 🗣️ Your Message:
 {user_input}
 """
+
+        persona = PersonaInjection(agent_name=self.default_agent, mirror_id=mirror_id)
+        final_prompt = persona.inject(final_prompt)
 
         return final_prompt.strip()
