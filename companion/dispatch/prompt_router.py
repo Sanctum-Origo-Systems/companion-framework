@@ -13,7 +13,7 @@ class PromptRouter:
     """
     PromptRouter handles incoming prompt commands for memory interaction
     and local LLM fallback, including 'remember', 'recall', and freeform
-    prompts via Lyra-K hosted in Ollama.
+    prompts via a local agent hosted in Ollama.
     """
     def __init__(self, memory: MemoryManager):
         self.routes: Dict[str, Callable[[str], str]] = {}
