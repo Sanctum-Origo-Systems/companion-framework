@@ -35,6 +35,8 @@ class ReflectionAuditor:
         # Determine poetic alignment
         if metaphor_count >= 2 or has_structural_pacing:
             poetic_alignment = "high"
+            # Remove "low poetic vocabulary/metaphor" from violations if it was added
+            violations = [v for v in violations if v != "low poetic vocabulary/metaphor"]
         elif metaphor_count == 1:
             poetic_alignment = "moderate"
         else:
